@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clona el repositorio de tu proyecto Cypress
+                bat(script: 'git clone https://github.com/guillermoroche/cypressjenkins', returnStatus: true)
+                script {
+                        currentBuild.description = "Usuario " + "guillermoroche\n" + "4.2.${env.BUILD_NUMBER}"
+                }
+            }
+        }
+
+        stage('Install and Run Cypress Tests') {
+            steps {
+                // Navega al directorio del proyecto Cypress
+                dir('cypressjenkins') {
+                    // Instala Cypress localmente en el proyecto
+                    bat 'npm install cypress@latest'
+                    ansiColor('vga') {
+                    // Tus pasos de build van aquí
+                        bat 'npx cypress run'
+                    }
+                    // Ejecuta los tests de Cypress
+                    //bat 'npx cypress run --no-colors'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Borra los archivos temporales, si es necesario
+            cleanWs()
+        }
+    }
+}
+
