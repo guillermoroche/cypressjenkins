@@ -7,7 +7,7 @@ pipeline {
                 // Clona el repositorio de tu proyecto Cypress
                 bat(script: 'git clone https://github.com/guillermoroche/cypressjenkins', returnStatus: true)
                 script {
-                        currentBuild.description = "Usuario: " + "${env.BUILD_USER_ID}\n" + "4.2.${env.BUILD_NUMBER}"
+                        currentBuild.description = "4.2.${env.BUILD_NUMBER}"
                 }
             }
         }
